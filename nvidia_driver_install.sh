@@ -2,7 +2,6 @@
 set -euo pipefail
 
 # Minimal headless installer: NVIDIA Driver 565 + CUDA Toolkit 12.6 (Ubuntu 22.04)
-set -euo pipefail
 [ "${EUID}" -eq 0 ] || { echo "Run as root: sudo $0" >&2; exit 1; }
 source /etc/os-release
 export DEBIAN_FRONTEND=noninteractive
@@ -28,5 +27,11 @@ apt-get install -y cuda-toolkit-12-6
 
 nvidia-smi || true
 /usr/local/cuda-12.6/bin/nvcc -V || true
+
+echo "export CUDA_HOME=/usr/local/cuda-12.6" >> ~/.bashrc
+echo "export PATH=\$CUDA_HOME/bin:\$PATH" >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=\$CUDA_HOME/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc
+source ~/.bashrc
+
 echo "Done."
 
