@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Minimal headless installer: NVIDIA Driver 570 + CUDA Toolkit 12.6 (Ubuntu 22.04)
+# Minimal headless installer: NVIDIA Driver 565 + CUDA Toolkit 12.6 (Ubuntu 22.04)
 set -euo pipefail
 [ "${EUID}" -eq 0 ] || { echo "Run as root: sudo $0" >&2; exit 1; }
 source /etc/os-release
@@ -16,7 +16,7 @@ lspci | grep -qi nvidia || { echo "No NVIDIA GPU found"; exit 1; }
 
 add-apt-repository -y ppa:graphics-drivers/ppa
 apt-get update -y
-apt-get install -y nvidia-driver-570
+apt-get install -y nvidia-driver-565
 modprobe nvidia || true
 modprobe nvidia_uvm || true
 nvidia-modprobe -u -c=0 || true
